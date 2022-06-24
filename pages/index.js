@@ -9,7 +9,7 @@ function HomePage(props) {
   );
 }
 
-// NextJs ce prvo da pokrene ovu funckiju getStaticProps() i tu vracamo zapravo props koji ce da bude prosledjen nasoj komponenti HomePage, ali naravno to ce sve da se desi pre nego sto ova komponenta bude ucitana i servirana unutar browsera. Unutar ove funkcije uvek moramo da vracamo objekat koji ima props properti. Ova funkcija zapravo priprema props objekat za nasu komponentu. Kod unutar getStaticProps nikada nece da bude vidljiv na klijentskoj strani. Sada ako proverimo page source videcemo da se ovaj sadrzaj produkta vidi unutar html stranice koju smo ucitali u brosweru (za razliku od obicnog react-a koji prilikom prvog ucitavanja stranice salje prazan html body)
+// NextJs ce prvo da pokrene ovu funckiju getStaticProps() i tu vracamo zapravo props koji ce da bude prosledjen nasoj komponenti HomePage, ali naravno to ce sve da se desi pre nego sto ova komponenta bude ucitana i servirana unutar browsera. Unutar ove funkcije uvek moramo da vracamo objekat koji ima props properti. Ova funkcija zapravo priprema props objekat za nasu komponentu. Kod unutar getStaticProps nikada nece da bude vidljiv na klijentskoj strani. Sada ako proverimo page source videcemo da se ovaj sadrzaj produkta vidi unutar html stranice koju smo ucitali u brosweru (za razliku od obicnog react-a koji prilikom prvog ucitavanja stranice salje prazan html body). Ovde u nextJs-u to fecovanje podataka se nije desilo na klijentskoj strani vec se to desilo na serveru.
 
 export function getStaticProps() {
   return {
