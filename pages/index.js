@@ -1,24 +1,45 @@
+import path from 'path';
+import fs from 'fs/promises';
+
+import Link from 'next/link';
+
 function HomePage(props) {
   const { products } = props;
   return (
     <ul>
       {products.map((product) => (
-        <li key={product.id}>{product.title}</li>
+        <li key={product.id}>
+          <Link href={`/${product.id}`}>{product.title}</Link>
+        </li>
       ))}
     </ul>
   );
 }
 
-// NextJs ce prvo da pokrene ovu funckiju getStaticProps() i tu vracamo zapravo props koji ce da bude prosledjen nasoj komponenti HomePage, ali naravno to ce sve da se desi pre nego sto ova komponenta bude ucitana i servirana unutar browsera. Unutar ove funkcije uvek moramo da vracamo objekat koji ima props properti. Ova funkcija zapravo priprema props objekat za nasu komponentu. Kod unutar getStaticProps nikada nece da bude vidljiv na klijentskoj strani. Sada ako proverimo page source videcemo da se ovaj sadrzaj produkta vidi unutar html stranice koju smo ucitali u brosweru (za razliku od obicnog react-a koji prilikom prvog ucitavanja stranice salje prazan html body). Ovde u nextJs-u to fecovanje podataka se nije desilo na klijentskoj strani vec se to desilo na serveru.
+export async function getStaticProps() {
+  console.log('(Pre)Generating...');
+  const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
+  const jsonData = await fs.readFile(filePath);
 
-export function getStaticProps() {
+  const data = JSON.parse(jsonData);
+
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/no-data',
+      },
+    };
+  }
+
+  if (data.products.length === 0) {
+    return { notFound: true };
+  }
+
   return {
     props: {
-      products: [
-        { id: 'p1', title: 'Product 1' },
-        { id: 'p2', title: 'Product 2' },
-      ],
+      products: data.products,
     },
+    revalidate: 10,
   };
 }
 
