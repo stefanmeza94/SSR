@@ -17,7 +17,6 @@ function HomePage(props) {
 }
 
 export async function getStaticProps() {
-  console.log('(Pre)Generating...');
   const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
   const jsonData = await fs.readFile(filePath);
 
@@ -40,17 +39,6 @@ export async function getStaticProps() {
       products: data.products,
     },
     revalidate: 10,
-  };
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [
-      { params: { pid: 'p1' } },
-      { params: { pid: 'p2' } },
-      { params: { pid: 'p3' } },
-    ],
-    fallback: false,
   };
 }
 
