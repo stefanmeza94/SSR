@@ -2,9 +2,9 @@ import fs from 'fs/promises';
 import path from 'path';
 
 function ProductionDetailPage({ loadedProduct }) {
-  // if (!loadedProduct) {
-  //   return <p>Loading...</p>;
-  // }
+  if (!loadedProduct) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -28,6 +28,10 @@ export async function getStaticProps(context) {
 
   const product = data.products.find((product) => product.id === productId);
 
+  if (!product) {
+    return { notFound: true };
+  }
+
   return {
     props: {
       loadedProduct: product,
@@ -36,7 +40,6 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  // dynamic loading of ids, 'cause we usually dont know all ids, so we get it from fetch source, just like in getStaticProps for all dynamic pages content
   const { products } = await getData();
 
   const ids = products.map((product) => product.id);
@@ -45,7 +48,7 @@ export async function getStaticPaths() {
 
   return {
     paths: pathsWithParams,
-    fallback: 'blocking',
+    fallback: true,
   };
 }
 
