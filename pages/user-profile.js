@@ -4,10 +4,9 @@ function UserProfilePage(props) {
 
 export default UserProfilePage;
 
-// moramo da pristupimo tom request objektu da bi iz njega izvadili params i ostale stvari.
-
-// bitno je da razumemo da se ova funkcija izvrsava samo na serveru nakon deploy-ovanja, dakle nije staticno pre-generisana kao kod getStaticProps tokom build faze.
 export async function getServerSideProps(context) {
+  const { params, req, res } = context;
+
   return {
     props: {
       username: 'Max',
