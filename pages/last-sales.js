@@ -48,7 +48,7 @@ export async function getStaticProps() {
   const response = await fetch(
     'https://nextjs-97c48-default-rtdb.firebaseio.com/sales.json'
   );
-  const data = response.json();
+  const data = await response.json();
 
   let transformedSales = [];
 
